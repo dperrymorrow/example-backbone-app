@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Example Backbone App</title>
+  <!-- load the bootstrap stylesheet -->
+  <link href="css/bootstrap.min.css" media="all" rel="stylesheet" type="text/css" />
+  <link href="css/bootstrap-responsive.min.css" media="all" rel="stylesheet" type="text/css" />
+  <link href="css/overrides.css" media="all" rel="stylesheet" type="text/css" />
+  <!-- load the libraries we need -->
+  <script type="text/javascript" src="js/libs/jquery.min.js"></script>
+  <script type="text/javascript" src="js/libs/underscore.min.js"></script>
+  <script type="text/javascript" src="js/libs/backbone.min.js"></script>
+  <script type="text/javascript" src="js/libs/bootstrap.min.js"></script>
+  <!-- load our scripts -->
+  <script type="text/javascript" src="js/note_router.js"></script>
+  <script type="text/javascript" src="js/models/note_model.js"></script>
+  <script type="text/javascript" src="js/views/note_index.js"></script>
+  <script type="text/javascript" src="js/views/note_row.js"></script>
+  <script type="text/javascript" src="js/views/note_edit.js"></script>
+</head>
+<body>
+  <div id="wrap">
+    <div class="container">
+      <div class="page-header">
+        <h1>Backbone.js Example App</h1>
+      </div>
+      <p class="lead">As simple as possible backbone app. Does not even communicate with a server. Mostly just displaying how to wire up the classes, and listen to events.</p>
+
+      <div id="primary-content">
+        <!-- the container that gets populated with the index -->
+      </div>
+    </div>
+  </div>
+  <!-- the form, used for create and edit -->
+  <script type="text/jst" id="formTemplate">
+    <form class="form-signin">
+      <h2 class="form-signin-heading">Please sign in</h2>
+      <input type="text" class="input-block-level" name="title" placeholder="Email address">
+      <input type="password" class="input-block-level" placeholder="Password">
+      <label class="checkbox">
+        <input type="checkbox" value="remember-me"> Remember me
+      </label>
+      <button class="btn btn-large btn-primary" type="submit">Sign in</button>
+    </form>
+  </script>
+  <!-- the index container -->
+  <script type="text/template" id="indexTemplate">
+    <div class="well">
+      <a class="btn btn-block btn-large btn-info" href="#note/new">Create New Note</a>
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Description</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </script>
+  <!-- the row template, renders once for each item in the index -->
+  <script type="text/template" id="rowTemplate">
+    <td><%= title %></td>
+    <td><%= author %></td>
+    <td><%= description %></td>
+    <td></td>
+  </script>
+
+  <script type="text/javascript">
+    var notes = new APP.Collections.NoteCollection();
+    var router = new APP.Routers.NoteRouter({notes: notes});
+
+    Backbone.history.start();
+    router.index();
+
+    notes.reset([
+                  {
+                    "title": "Example Title",
+                    "author": "David Morrow",
+                    "description": "Raw denim forage narwhal mustache. Synth trust fund mcsweeney's next level odd future swag. Seitan keytar iphone thundercats. Cardigan freegan blog authentic, echo park mlkshk +1 irony 3 wolf moon pop-up. Next level master cleanse hoodie, thundercats brunch small batch freegan banksy brooklyn post-ironic direct trade. Marfa quinoa synth truffaut lomo, chillwave you probably haven't heard of them seitan. Vinyl seitan fixie typewriter."
+                  }
+                ]
+              );
+  </script>
+</body>
+</html>
