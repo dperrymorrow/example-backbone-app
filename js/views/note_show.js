@@ -12,7 +12,7 @@
 
     // populate the html to the dom
     render: function () {
-      $(this.el).html(_.template($('#showTemplate').html(), this.note.toJSON()));
+      this.$el.html(_.template($('#showTemplate').html(), this.note.toJSON()));
       return this;
     }
   });

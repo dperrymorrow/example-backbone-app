@@ -38,7 +38,7 @@
 
     // populate the html to the dom
     render: function () {
-      $(this.el).html(_.template($('#formTemplate').html(), this.note.toJSON()));
+      this.$el.html(_.template($('#formTemplate').html(), this.note.toJSON()));
       this.$el.find('h2').text('Create New Note');
       return this;
     }

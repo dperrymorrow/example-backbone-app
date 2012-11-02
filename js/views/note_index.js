@@ -14,24 +14,20 @@
 
     // populate the html to the dom
     render: function () {
-      // (this.collection.toJSON())
-      $(this.el).html($('#indexTemplate').html());
+      this.$el.html($('#indexTemplate').html());
       this.addAll();
       return this;
     },
 
     addAll: function () {
       // clear out the container each time you render index
-      this.$('tbody').children().remove();
-      var that = this;
-      _.each(this.notes.models, function (note) {
-        that.addOne(note);
-      });
+      this.$el.find('tbody').children().remove();
+      _.each(this.notes.models, $.proxy(this, 'addOne'));
     },
 
     addOne: function (note) {
       var view = new APP.Views.NoteRowView({notes: this.notes, note: note});
-      this.$("tbody").append(view.render().el);
+      this.$el.find("tbody").append(view.render().el);
     }
   });
 }());
