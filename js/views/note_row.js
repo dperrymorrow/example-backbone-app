@@ -5,7 +5,8 @@
   "use strict";
   window.APP = window.APP || {Routers: {}, Collections: {}, Models: {}, Views: {}};
   APP.Views.NoteRowView = Backbone.View.extend({
-    // the wrapper
+    // the wrapper defaults to div, so only need to set this if you want something else
+    // like in this case we are in a table so a tr
     tagName: "tr",
     // functions to fire on events
     events: {
@@ -15,7 +16,8 @@
     // the constructor
     initialize: function (options) {
       // model is passed through
-      this.note = options.note;
+      this.note  = options.note;
+      this.notes = options.notes;
     },
 
     // populate the html to the dom
@@ -28,9 +30,11 @@
     destroy: function (event) {
       event.preventDefault();
       event.stopPropagation();
-
-      this.model.destroy();
-      this.remove();
+      // we would call 
+      // this.model.destroy();
+      // which would make a DELETE call to the server with the id of the item
+      this.notes.remove(this.note);
+      this.$el.remove();
     }
   });
 }());

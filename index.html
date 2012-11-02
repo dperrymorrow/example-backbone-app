@@ -16,7 +16,9 @@
   <script type="text/javascript" src="js/models/note_model.js"></script>
   <script type="text/javascript" src="js/views/note_index.js"></script>
   <script type="text/javascript" src="js/views/note_row.js"></script>
+  <script type="text/javascript" src="js/views/note_new.js"></script>
   <script type="text/javascript" src="js/views/note_edit.js"></script>
+  <script type="text/javascript" src="js/views/note_show.js"></script>
 </head>
 <body>
   <div id="wrap">
@@ -33,15 +35,19 @@
   </div>
   <!-- the form, used for create and edit -->
   <script type="text/jst" id="formTemplate">
-    <form class="form-signin">
-      <h2 class="form-signin-heading">Please sign in</h2>
-      <input type="text" class="input-block-level" name="title" placeholder="Email address">
-      <input type="password" class="input-block-level" placeholder="Password">
-      <label class="checkbox">
-        <input type="checkbox" value="remember-me"> Remember me
-      </label>
-      <button class="btn btn-large btn-primary" type="submit">Sign in</button>
-    </form>
+    <div class="well">
+      <form class="form-signin">
+        <h2 class="form-signin-heading"></h2>
+        <input type="text" class="input-block-level" name="title" placeholder="Title" value="<%= title %>">
+        <input type="text" class="input-block-level" name="author" placeholder="Author" value="<%= author %>">
+        <textarea class="input-block-level" rows="5" name="description" placeholder="Description"><%= description %></textarea>
+        <div class="action-bar">
+          <button class="save btn btn-large btn-primary" type="submit">Save</button>
+          or
+          <a href="#notes/index" class="btn btn-large">Cancel</a>
+        </div>
+      </form>
+    </div>
   </script>
   <!-- the index container -->
   <script type="text/template" id="indexTemplate">
@@ -51,8 +57,8 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <th>Title</th>
-          <th>Author</th>
+          <th width="20%">Title</th>
+          <th width="20%">Author</th>
           <th>Description</th>
           <th></th>
         </tr>
@@ -62,10 +68,32 @@
   </script>
   <!-- the row template, renders once for each item in the index -->
   <script type="text/template" id="rowTemplate">
-    <td><%= title %></td>
+    <td>
+      <a href="#note/<%= id %>/view"><%= title %></a>
+    </td>
     <td><%= author %></td>
     <td><%= description %></td>
-    <td></td>
+    <td>
+      <a href="#" class="delete btn btn-danger btn-small">delete</a>
+    </td>
+  </script>
+  <!-- the show template -->
+  <script type="text/template" id="showTemplate">
+    <div class="well">
+      <a class="btn btn-large" href="#notes/index">
+        <i class="icon-arrow-left"></i>
+        Back To Index
+      </a>
+      <a class="btn btn-large btn-info" href="#note/<%= id %>/edit">
+        <i class="icon-pencil icon-white"></i>
+        Edit Note
+      </a>
+    </div>
+    <h2>
+      <%= title %>
+      <small>by: <%= author %></small>
+    </h2>
+    <pre><%= description %></pre>
   </script>
 
   <script type="text/javascript">
@@ -73,13 +101,12 @@
     var router = new APP.Routers.NoteRouter({notes: notes});
 
     Backbone.history.start();
-    router.index();
-
     notes.reset([
                   {
                     "title": "Example Title",
+                    "id": "45",
                     "author": "David Morrow",
-                    "description": "Raw denim forage narwhal mustache. Synth trust fund mcsweeney's next level odd future swag. Seitan keytar iphone thundercats. Cardigan freegan blog authentic, echo park mlkshk +1 irony 3 wolf moon pop-up. Next level master cleanse hoodie, thundercats brunch small batch freegan banksy brooklyn post-ironic direct trade. Marfa quinoa synth truffaut lomo, chillwave you probably haven't heard of them seitan. Vinyl seitan fixie typewriter."
+                    "description": "Raw denim forage narwhal mustache. Synth trust fund mcsweeney's next level odd future swag. Seitan keytar iphone thundercats. Cardigan freegan blog authentic, echo park mlkshk +1 irony 3 wolf moon pop-up."
                   }
                 ]
               );

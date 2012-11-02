@@ -5,8 +5,6 @@
   "use strict";
   window.APP = window.APP || {Routers: {}, Collections: {}, Models: {}, Views: {}};
   APP.Views.NoteIndexView = Backbone.View.extend({
-    // the wrapper
-    tagName: "div",
     // the constructor
     initialize: function (options) {
       // model is passed through
@@ -18,6 +16,7 @@
     render: function () {
       // (this.collection.toJSON())
       $(this.el).html($('#indexTemplate').html());
+      this.addAll();
       return this;
     },
 
@@ -31,7 +30,7 @@
     },
 
     addOne: function (note) {
-      var view = new APP.Views.NoteRowView({note: note});
+      var view = new APP.Views.NoteRowView({notes: this.notes, note: note});
       this.$("tbody").append(view.render().el);
     }
   });
