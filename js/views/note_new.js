@@ -1,9 +1,5 @@
-/*global RPM:true, _:true, jQuery:true, Backbone:true, JST:true, $:true*/
-/*jslint browser: true, white: false, vars: true, devel: true, bitwise: true, debug: true, nomen: true, sloppy: false, indent: 2*/
-
 (function () {
   "use strict";
-  window.APP || {Routers: {}, Collections: {}, Models: {}, Views: {}};
   APP.Views.NoteNewView = Backbone.View.extend({
     // functions to fire on events
     events: {
@@ -29,7 +25,7 @@
       });
       // add it to the collection
       this.notes.add(this.note);
-      // we would save to the server here with 
+      // we would save to the server here with
       // this.note.save();
       // which would return it with an id, so we fake it and just set it
       // redirect back to the index

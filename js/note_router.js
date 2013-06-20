@@ -1,6 +1,3 @@
-/*global APP:true, _:true, jQuery:true, Backbone:true, JST:true, $:true*/
-/*jslint browser: true, white: false, vars: true, devel: true, bitwise: true, debug: true, nomen: true, sloppy: false, indent: 2*/
-
 (function () {
   "use strict";
   window.APP = window.APP || {Routers: {}, Collections: {}, Models: {}, Views: {}};
@@ -14,7 +11,16 @@
 
     initialize: function (options) {
       this.notes = options.notes;
+      // this is debug only to demonstrate how the backbone collection / models work
+      this.notes.bind('reset', this.updateDebug, this);
+      this.notes.bind('add', this.updateDebug, this);
+      this.notes.bind('remove', this.updateDebug, this);
       this.index();
+    },
+
+    updateDebug: function () {
+      $('#output').text(JSON.stringify(this.notes.toJSON(), null, 4));
+      // .animate({scrollTop: $('#offset').scrollHeight}, 1000);
     },
 
     create: function () {
@@ -37,7 +43,7 @@
     index: function () {
       this.currentView = new APP.Views.NoteIndexView({notes: this.notes});
       $('#primary-content').html(this.currentView.render().el);
-      // we would call to the index with 
+      // we would call to the index with
       // this.notes.fetch()
       // to pull down the index json response to populate our collection initially
     }

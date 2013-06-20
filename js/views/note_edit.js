@@ -1,9 +1,5 @@
-/*global RPM:true, _:true, jQuery:true, Backbone:true, JST:true, $:true*/
-/*jslint browser: true, white: false, vars: true, devel: true, bitwise: true, debug: true, nomen: true, sloppy: false, indent: 2*/
-
 (function () {
   "use strict";
-  window.APP || {Routers: {}, Collections: {}, Models: {}, Views: {}};
   APP.Views.NoteEditView = Backbone.View.extend({
     // functions to fire on events
     events: {
@@ -16,6 +12,7 @@
     },
 
     save: function (event) {
+      // this keeps the form from submitting
       event.stopPropagation();
       event.preventDefault();
 
@@ -25,7 +22,7 @@
         author: this.$el.find('input[name=author]').val(),
         description: this.$el.find('textarea[name=description]').val()
       });
-      // we would save to the server here with 
+      // we would save to the server here with
       // this.note.save();
       // redirect back to the index
       window.location.hash = "notes/index";
