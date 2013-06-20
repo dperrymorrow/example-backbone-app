@@ -10,6 +10,16 @@
     initialize: function (options) {
       this.note  = options.note;
       this.notes = options.notes;
+      this.note.bind('invalid', this.showErrors, this);
+    },
+
+    showErrors: function (note, errors) {
+      this.$el.find('.error').removeClass('error');
+      this.$el.find('.alert').html(_.values(errors).join('<br>')).show();
+      // highlight the fields with errors
+      _.each(_.keys(errors), _.bind(function (key) {
+        this.$el.find('*[name=' + key + ']').parent().addClass('error');
+      }, this));
     },
 
     save: function (event) {
@@ -21,15 +31,16 @@
         title: this.$el.find('input[name=title]').val(),
         author: this.$el.find('input[name=author]').val(),
         description: this.$el.find('textarea[name=description]').val(),
+        // just setting random number for id would set as primary key from server
         id: Math.floor(Math.random() * 100) + 1
       });
-      // add it to the collection
-      this.notes.add(this.note);
-      // we would save to the server here with
-      // this.note.save();
-      // which would return it with an id, so we fake it and just set it
-      // redirect back to the index
-      window.location.hash = "notes/index";
+      if (this.note.isValid()){
+        // add it to the collection
+        this.notes.add(this.note);
+        // this.note.save();
+        // redirect back to the index
+        window.location.hash = "notes/index";
+      }
     },
 
     // populate the html to the dom

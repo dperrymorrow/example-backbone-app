@@ -42,11 +42,18 @@
   <!-- the form, used for create and edit -->
   <script type="text/jst" id="formTemplate">
     <div class="well">
+      <div class="alert alert-error" style="display:none;"></div>
       <form>
         <h2 class="form-signin-heading"></h2>
-        <input type="text" class="input-block-level" name="title" placeholder="Title" value="<%= title %>" />
-        <input type="text" class="input-block-level" name="author" placeholder="Author" value="<%= author %>" />
-        <textarea class="input-block-level" rows="5" name="description" placeholder="Description"><%= description %></textarea>
+        <div class="control-group">
+          <input type="text" class="input-block-level" name="title" placeholder="Title" value="<%= title %>" />
+        </div>
+        <div class="control-group">
+          <input type="text" class="input-block-level" name="author" placeholder="Author" value="<%= author %>" />
+        </div>
+        <div class="control-group">
+          <textarea class="input-block-level" rows="5" name="description" placeholder="Description"><%= description %></textarea>
+        </div>
         <div class="form-actions">
           <button class="save btn btn-large btn-info" type="submit">Save</button> or
           <a href="#notes/index" class="btn btn-large">Cancel</a>
