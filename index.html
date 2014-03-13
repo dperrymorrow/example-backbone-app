@@ -3,11 +3,11 @@
 <head>
   <title>Example Backbone App</title>
   <!-- load the bootstrap stylesheet -->
-  <link href="css/bootstrap.min.css" media="all" rel="stylesheet" type="text/css" />
+  <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" media="all" rel="stylesheet" type="text/css" />
   <!-- load the libraries we need -->
-  <script type="text/javascript" src="js/libs/jquery.min.js"></script>
-  <script type="text/javascript" src="js/libs/underscore.min.js"></script>
-  <script type="text/javascript" src="js/libs/backbone.min.js"></script>
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/zepto/1.1.3/zepto.min.js"></script>
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
   <!-- load our scripts -->
   <script type="text/javascript" src="js/note_router.js"></script>
   <script type="text/javascript" src="js/models/note_model.js"></script>
@@ -22,45 +22,46 @@
   <div class="container">
     <div class="page-header">
       <h1>Backbone.js Example App</h1>
+      <p class="lead">
+        As simple as possible backbone app. Does not even communicate with a server. Mostly just displaying how to wire up the classes, and listen to events.
+      </p>
     </div>
 
-    <p class="lead">
-      As simple as possible backbone app. Does not even communicate with a server. Mostly just displaying how to wire up the classes, and listen to events.
-    </p>
-
     <div class="row">
-      <div class="span6" id="primary-content">
+      <div class="col-md-6" id="primary-content">
         <!-- the container that gets populated with the index -->
       </div>
-      <div class="span6">
+      <div class="col-md-6">
           <!-- we are going to debug our backbone collection here -->
           <code id="output" style="display:block;white-space:pre-wrap;"></code>
       </div>
     </div>
-
   </div>
+
   <!-- the form, used for create and edit -->
   <script type="text/jst" id="formTemplate">
     <div class="well">
       <div class="alert alert-error" style="display:none;"></div>
       <form>
-        <h2 class="form-signin-heading"></h2>
-        <div class="control-group">
-          <input type="text" class="input-block-level" name="title" placeholder="Title" value="<%= title %>" />
+        <h2><%= title %></h2>
+        <div class="form-group">
+          <label>Title:</label>
+          <input type="text" class="form-control" name="title" value="<%= title %>" />
         </div>
-        <div class="control-group">
-          <input type="text" class="input-block-level" name="author" placeholder="Author" value="<%= author %>" />
+        <div class="form-group">
+          <label>Author:</label>
+          <input type="text" class="form-control" name="author" value="<%= author %>" />
         </div>
-        <div class="control-group">
-          <textarea class="input-block-level" rows="5" name="description" placeholder="Description"><%= description %></textarea>
+        <div class="form-group">
+          <label>Description:</label>
+          <textarea class="form-control" rows="5" name="description"><%= description %></textarea>
         </div>
-        <div class="form-actions">
-          <button class="save btn btn-large btn-info" type="submit">Save</button> or
-          <a href="#notes/index" class="btn btn-large">Cancel</a>
-        </div>
+        <button class="save btn btn-large btn-info" type="submit">Save</button> or
+        <a href="#notes/index" class="btn btn-large">Cancel</a>
       </form>
     </div>
   </script>
+
   <!-- the index container -->
   <script type="text/template" id="indexTemplate">
     <div class="well">
@@ -78,6 +79,7 @@
       <tbody></tbody>
     </table>
   </script>
+
   <!-- the row template, renders once for each item in the index -->
   <script type="text/template" id="rowTemplate">
     <td>
@@ -89,6 +91,7 @@
       <a href="#" class="delete btn btn-danger btn-small">delete</a>
     </td>
   </script>
+
   <!-- the show template -->
   <script type="text/template" id="showTemplate">
     <div class="well">
@@ -106,33 +109,36 @@
     <p style="white-space:pre-wrap;"><%= description %></p>
   </script>
 
+  <!-- kick off the app -->
   <script type="text/javascript">
-    var notes = new APP.Collections.NoteCollection();
-    var router = new APP.Routers.NoteRouter({notes: notes});
+    var router = new APP.NoteRouter({
+      notes: new APP.NoteCollection()
+    });
 
-    Backbone.history.start();
     // we manually pass in the initial data, but this would be called with a collection.fetch() normally
-    notes.reset([
-                  {
-                    "title": "Example Note 1",
-                    "id": "45",
-                    "author": "David Morrow",
-                    "description": "Pinterest biodiesel excepteur, ad etsy gluten-free semiotics ennui before they sold out irony ut deserunt jean shorts."
-                  },
-                  {
-                    "title": "Example Note 2",
-                    "id": "48",
-                    "author": "David Morrow",
-                    "description": "Fixie synth quinoa umami single-origin coffee master cleanse sartorial typewriter bushwick ennui readymade, lomo trust fund. Shoreditch direct trade fap cray high life swag, viral cred lo-fi locavore fingerstache wayfarers freegan."
-                  },
-                  {
-                    "title": "Example Note 3",
-                    "id": "52",
-                    "author": "David Morrow",
-                    "description": "You probably haven't heard of them keffiyeh lo-fi, yr bespoke selvage cray polaroid beard. Tofu messenger bag sustainable gastropub, gentrify lomo godard PBR echo park fap yr. Small batch truffaut swag forage tofu shoreditch street art helvetica. Hella helvetica fixie godard forage art party lo-fi."
-                  }
-                ]
-              );
+    router.notes.reset([
+      {
+        "title": "Example Note 1",
+        "id": "45",
+        "author": "David Morrow",
+        "description": "Pinterest biodiesel excepteur, ad etsy gluten-free semiotics ennui before they sold out irony ut deserunt jean shorts."
+      },
+      {
+        "title": "Example Note 2",
+        "id": "48",
+        "author": "David Morrow",
+        "description": "Fixie synth quinoa umami single-origin coffee master cleanse sartorial typewriter bushwick ennui readymade, lomo trust fund. Shoreditch direct trade fap cray high life swag, viral cred lo-fi locavore fingerstache wayfarers freegan."
+      },
+      {
+        "title": "Example Note 3",
+        "id": "52",
+        "author": "David Morrow",
+        "description": "You probably haven't heard of them keffiyeh lo-fi, yr bespoke selvage cray polaroid beard. Tofu messenger bag sustainable gastropub, gentrify lomo godard PBR echo park fap yr. Small batch truffaut swag forage tofu shoreditch street art helvetica. Hella helvetica fixie godard forage art party lo-fi."
+      }
+    ]);
+    
+    // now that everyting is setup we tell backbone to watch the urls
+    Backbone.history.start();
   </script>
 </body>
 </html>

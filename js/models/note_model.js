@@ -1,6 +1,6 @@
 (function () {
   "use strict";
-  APP.Models.NoteModel = Backbone.Model.extend({
+  APP.NoteModel = Backbone.Model.extend({
     // you can set any defaults you would like here
     defaults: {
       title: "",
@@ -26,8 +26,8 @@
     }
   });
 
-  APP.Collections.NoteCollection = Backbone.Collection.extend({
+  APP.NoteCollection = Backbone.Collection.extend({
     // Reference to this collection's model.
-    model: APP.Models.NoteModel
+    model: APP.NoteModel
   });
 }());

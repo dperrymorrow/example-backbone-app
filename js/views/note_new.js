@@ -1,6 +1,6 @@
 (function () {
   "use strict";
-  APP.Views.NoteNewView = Backbone.View.extend({
+  APP.NoteNewView = Backbone.View.extend({
     // functions to fire on events
     events: {
       "click button.save": "save"
@@ -46,7 +46,6 @@
     // populate the html to the dom
     render: function () {
       this.$el.html(_.template($('#formTemplate').html(), this.note.toJSON()));
-      this.$el.find('h2').text('Create New Note');
       return this;
     }
   });

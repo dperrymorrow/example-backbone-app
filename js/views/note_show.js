@@ -1,6 +1,6 @@
 (function () {
   "use strict";
-  APP.Views.NoteShowView = Backbone.View.extend({
+  APP.NoteShowView = Backbone.View.extend({
     // the constructor
     initialize: function (options) {
       this.note = options.note;

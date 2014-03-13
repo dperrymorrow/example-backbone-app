@@ -1,6 +1,6 @@
 (function () {
   "use strict";
-  APP.Views.NoteRowView = Backbone.View.extend({
+  APP.NoteRowView = Backbone.View.extend({
     // the wrapper defaults to div, so only need to set this if you want something else
     // like in this case we are in a table so a tr
     tagName: "tr",
