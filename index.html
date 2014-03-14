@@ -41,7 +41,7 @@
   <!-- the form, used for create and edit -->
   <script type="text/jst" id="formTemplate">
     <div class="well">
-      <div class="alert alert-error" style="display:none;"></div>
+      <div class="alert alert-danger fade in" style="display:none;"></div>
       <form>
         <h2><%= title %></h2>
         <div class="form-group">
@@ -56,7 +56,7 @@
           <label>Description:</label>
           <textarea class="form-control" rows="5" name="description"><%= description %></textarea>
         </div>
-        <button class="save btn btn-large btn-info" type="submit">Save</button> or
+        <button class="save btn btn-large btn-info" type="submit">Save</button>
         <a href="#notes/index" class="btn btn-large">Cancel</a>
       </form>
     </div>
@@ -94,19 +94,20 @@
 
   <!-- the show template -->
   <script type="text/template" id="showTemplate">
-    <div class="well">
-      <a class="btn btn-large" href="#notes/index">
-        Back To Index
-      </a>
-      <a class="btn btn-large btn-info" href="#note/<%= id %>/edit">
-        Edit Note
-      </a>
-    </div>
+    <ol class="breadcrumb">
+      <li>
+        <a href="#notes/index">All Notes</a>
+      </li>
+      <li class="active">View Note</li>
+    </ol>
+
     <h2>
       <%= title %>
       <small>by: <%= author %></small>
     </h2>
     <p style="white-space:pre-wrap;"><%= description %></p>
+    <hr/>
+    <a class="btn btn-info btn-block" href="#note/<%= id %>/edit">Edit Note</a>
   </script>
 
   <!-- kick off the app -->
