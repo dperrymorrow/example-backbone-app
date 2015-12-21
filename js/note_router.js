@@ -8,8 +8,11 @@ APP.NoteRouter = Backbone.Router.extend({
     "note/:id/view": "show"
   },
 
+  $container: null,
+
   initialize: function (options) {
     this.notes = options.notes;
+    this.$container = $('#primary-content');
     // this is debug only to demonstrate how the backbone collection / models work
     this.notes.bind('reset', this.updateDebug, this);
     this.notes.bind('add', this.updateDebug, this);
@@ -22,32 +25,26 @@ APP.NoteRouter = Backbone.Router.extend({
   },
 
   create: function () {
-    this.currentView = new APP.NoteNewView({
-      notes: this.notes, note: new APP.NoteModel()
+    var view = new APP.NoteNewView({
+      notes: this.notes, 
+      note: new APP.NoteModel()
     });
-
-    $('#primary-content').html(this.currentView.render().el);
+    this.$container.html(view.render().el);
   },
 
   edit: function (id) {
-    var note = this.notes.get(id);
-    this.currentView = new APP.NoteEditView({note: note});
-    $('#primary-content').html(this.currentView.render().el);
+    var view = new APP.NoteEditView({note: this.notes.get(id)});
+    this.$container.html(view.render().el);
   },
 
   show: function (id) {
-    var note = this.notes.get(id);
-    this.currentView = new APP.NoteShowView({
-      note: note
-    });
-    $('#primary-content').html(this.currentView.render().el);
+    var view = new APP.NoteShowView({note: this.notes.get(id)});
+    this.$container.html(view.render().el);
   },
 
   index: function () {
-    this.currentView = new APP.NoteIndexView({
-      notes: this.notes
-    });
-    $('#primary-content').html(this.currentView.render().el);
+    var view = new APP.NoteIndexView({notes: this.notes});
+    this.$container.html(view.render().el);
     // we would call to the index with
     // this.notes.fetch()
     // to pull down the index json response to populate our collection initially
