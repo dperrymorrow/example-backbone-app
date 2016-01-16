@@ -18,6 +18,8 @@ APP.NoteRouter = Backbone.Router.extend({
     this.notes.bind('add', this.updateDebug, this);
     this.notes.bind('remove', this.updateDebug, this);
     this.index();
+    // start tracking hash urls...
+    Backbone.history.start();
   },
 
   updateDebug: function () {
