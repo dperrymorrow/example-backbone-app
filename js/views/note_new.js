@@ -11,6 +11,7 @@ APP.NoteNewView = Backbone.View.extend({
     this.note  = options.note;
     this.notes = options.notes;
     this.note.bind('invalid', this.showErrors, this);
+    this.template = _.template($('#formTemplate').html());
   },
 
   showErrors: function (note, errors) {
@@ -45,7 +46,9 @@ APP.NoteNewView = Backbone.View.extend({
 
   // populate the html to the dom
   render: function () {
-    this.$el.html(_.template($('#formTemplate').html(), this.note.toJSON()));
+    this.$el.html(
+    	this.template(this.note.toJSON())
+    );
     return this;
   }
 });

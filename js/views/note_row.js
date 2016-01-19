@@ -13,11 +13,14 @@ APP.NoteRowView = Backbone.View.extend({
     // model is passed through
     this.note  = options.note;
     this.notes = options.notes;
+    this.template = _.template($('#rowTemplate').html());
   },
 
   // populate the html to the dom
   render: function () {
-    this.$el.html(_.template($('#rowTemplate').html(), this.note.toJSON()));
+    this.$el.html(
+    	this.template(this.note.toJSON())
+    );
     return this;
   },
 
