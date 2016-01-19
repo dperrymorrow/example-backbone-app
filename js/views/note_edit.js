@@ -9,8 +9,16 @@ APP.NoteEditView = Backbone.View.extend({
   // the template
   template: _.template($('#formTemplate').html()),
 
+  initialize: function (options) {
+    this.model.bind('invalid', APP.helpers.showErrors, APP.helpers);
+    this.model.bind('invalid', this.invalid, this);
+  },
+
+  invalid: function () {
+    this.$el.find('a.cancel').hide();
+  },
+
   save: function (event) {
-    // this keeps the form from submitting
     event.stopPropagation();
     event.preventDefault();
 
@@ -20,16 +28,19 @@ APP.NoteEditView = Backbone.View.extend({
       author: this.$el.find('input[name=author]').val(),
       description: this.$el.find('textarea[name=description]').val()
     });
-    // we would save to the server here with
-    // this.note.save();
-    // redirect back to the index
-   	Backbone.history.navigate('notes/index', {trigger: true});
+
+    if (this.model.isValid()) {
+      // we would save to the server here with
+      // this.note.save();
+      // redirect back to the index
+      Backbone.history.navigate('notes/index', {trigger: true});
+    }
   },
 
   // populate the html to the dom
   render: function () {
     this.$el.html(
-    	this.template(this.model.toJSON())
+      this.template(this.model.toJSON())
     );
     return this;
   }
