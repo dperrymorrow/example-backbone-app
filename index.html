@@ -4,18 +4,6 @@
   <title>Example Backbone App</title>
   <!-- load the bootstrap stylesheet -->
   <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" media="all" rel="stylesheet" type="text/css" />
-  <!-- load the libraries we need -->
-  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/zepto/1.1.6/zepto.min.js"></script>
-  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.3/backbone-min.js"></script>
-  <!-- load our scripts -->
-  <script type="text/javascript" src="js/note_router.js"></script>
-  <script type="text/javascript" src="js/models/note_model.js"></script>
-  <script type="text/javascript" src="js/views/note_index.js"></script>
-  <script type="text/javascript" src="js/views/note_row.js"></script>
-  <script type="text/javascript" src="js/views/note_new.js"></script>
-  <script type="text/javascript" src="js/views/note_edit.js"></script>
-  <script type="text/javascript" src="js/views/note_show.js"></script>
 </head>
 <body>
 
@@ -78,20 +66,21 @@
           <th></th>
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody>
+        <% _.each(notes, function (note) { %>
+          <tr>
+            <td>
+              <a href="#note/<%= note.id %>/view"><%= note.title %></a>
+            </td>
+            <td><%= note.author %></td>
+            <td><% print(note.description.substring(0, 100)) %>...</td>
+            <td>
+              <a href="#note/<%= note.id %>/delete" class="delete btn btn-danger btn-small">delete</a>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
     </table>
-  </script>
-
-  <!-- the row template, renders once for each item in the index -->
-  <script type="text/template" id="rowTemplate">
-    <td>
-      <a href="#note/<%= id %>/view"><%= title %></a>
-    </td>
-    <td><%= author %></td>
-    <td><% print(description.substring(0, 100)) %>...</td>
-    <td>
-      <a href="#" class="delete btn btn-danger btn-small">delete</a>
-    </td>
   </script>
 
   <!-- the show template -->
@@ -112,14 +101,27 @@
     <a class="btn btn-info btn-block" href="#note/<%= id %>/edit">Edit Note</a>
   </script>
 
+  <!-- load the libraries we need -->
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/zepto/1.1.6/zepto.min.js"></script>
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.3/backbone-min.js"></script>
+  <!-- load our scripts -->
+  <script type="text/javascript" src="js/note_router.js"></script>
+  <script type="text/javascript" src="js/models/note_model.js"></script>
+  <script type="text/javascript" src="js/views/note_index.js"></script>
+  <script type="text/javascript" src="js/views/note_row.js"></script>
+  <script type="text/javascript" src="js/views/note_new.js"></script>
+  <script type="text/javascript" src="js/views/note_edit.js"></script>
+  <script type="text/javascript" src="js/views/note_show.js"></script>
+
   <!-- kick off the app -->
   <script type="text/javascript">
     var router = new APP.NoteRouter({
-      notes: new APP.NoteCollection()
+      collection: new APP.NoteCollection()
     });
 
     // we manually pass in the initial data, but this would be called with a collection.fetch() normally
-    router.notes.reset([
+    router.collection.reset([
       {
         "title": "Example Note 1",
         "id": 45,

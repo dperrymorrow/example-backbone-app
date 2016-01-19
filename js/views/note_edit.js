@@ -6,11 +6,8 @@ APP.NoteEditView = Backbone.View.extend({
     "click button.save": "save"
   },
 
-  // the constructor
-  initialize: function (options) {
-    this.note  = options.note;
-    this.template = _.template($('#formTemplate').html());
-  },
+  // the template
+  template: _.template($('#formTemplate').html()),
 
   save: function (event) {
     // this keeps the form from submitting
@@ -18,7 +15,7 @@ APP.NoteEditView = Backbone.View.extend({
     event.preventDefault();
 
     // update our model with values from the form
-    this.note.set({
+    this.model.set({
       title: this.$el.find('input[name=title]').val(),
       author: this.$el.find('input[name=author]').val(),
       description: this.$el.find('textarea[name=description]').val()
@@ -26,13 +23,13 @@ APP.NoteEditView = Backbone.View.extend({
     // we would save to the server here with
     // this.note.save();
     // redirect back to the index
-    window.location.hash = "notes/index";
+   	Backbone.history.navigate('notes/index', {trigger: true});
   },
 
   // populate the html to the dom
   render: function () {
     this.$el.html(
-    	this.template(this.note.toJSON())
+    	this.template(this.model.toJSON())
     );
     return this;
   }

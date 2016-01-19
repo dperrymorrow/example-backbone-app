@@ -1,17 +1,16 @@
-
 "use strict";
+
 APP.NoteNewView = Backbone.View.extend({
   // functions to fire on events
   events: {
     "click button.save": "save"
   },
+  
+  template: _.template($('#formTemplate').html()),
 
   // the constructor
   initialize: function (options) {
-    this.note  = options.note;
-    this.notes = options.notes;
-    this.note.bind('invalid', this.showErrors, this);
-    this.template = _.template($('#formTemplate').html());
+    this.model.bind('invalid', this.showErrors, this);
   },
 
   showErrors: function (note, errors) {
@@ -28,26 +27,27 @@ APP.NoteNewView = Backbone.View.extend({
     event.preventDefault();
 
     // update our model with values from the form
-    this.note.set({
+    this.model.set({
       title: this.$el.find('input[name=title]').val(),
       author: this.$el.find('input[name=author]').val(),
       description: this.$el.find('textarea[name=description]').val(),
       // just setting random number for id would set as primary key from server
       id: Math.floor(Math.random() * 100) + 1
     });
-    if (this.note.isValid()){
+    
+    if (this.model.isValid()){
       // add it to the collection
-      this.notes.add(this.note);
+      this.collection.add(this.model);
       // this.note.save();
       // redirect back to the index
-      window.location.hash = "notes/index";
+      Backbone.history.navigate("notes/index", {trigger: true});
     }
   },
 
   // populate the html to the dom
   render: function () {
     this.$el.html(
-    	this.template(this.note.toJSON())
+    	this.template(this.model.toJSON())
     );
     return this;
   }
