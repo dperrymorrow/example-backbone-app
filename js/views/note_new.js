@@ -2,6 +2,7 @@
 
 APP.NoteNewView = Backbone.View.extend({
   // functions to fire on events
+  // here we are blocking the submission of the form, and handling it ourself
   events: {
     "click button.save": "save"
   },
