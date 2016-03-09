@@ -13,10 +13,16 @@
     <div class="page-header">
       <h1>Backbone.js Example App</h1>
       <p class="lead">
-        As simple as possible Backbone Application. Does not communicate with a server. 
-        <br/>
-        Mostly just displaying how to wire up the classes, and listen to events.
+        As simple as possible Backbone Application. Uses localStorage for persisting data.
+        Showing how to set up the classes, and listen to events.
       </p>
+      <strong>Dependencies:</strong>
+      <ul>
+        <li>Zepto (could also use JQuery)</li>
+        <li>Underscore.js</li>
+        <li>Backbone.js</li>
+        <li>Backbone.LocalStorage.js</li>
+      </ul>
     </div>
 
     <div class="row">
@@ -50,6 +56,7 @@
           <textarea class="form-control" rows="5" name="description"><%= description %></textarea>
         </div>
         <button class="save btn btn-large btn-info" type="submit">Save</button>
+        <a href="#notes/index" class="btn btn-large btn-default">Cancel</a>
       </form>
     </div>
   </script>
@@ -59,44 +66,46 @@
     <div class="well">
       <a class="btn btn-block btn-large btn-info" href="#note/new">Create New Note</a>
     </div>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th width="20%">Title</th>
-          <th width="20%">Author</th>
-          <th>Description</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% _.each(notes, function (note) { %>
-          <tr>
-            <td>
-              <a href="#note/<%= note.id %>/edit"><%= note.title %></a>
-            </td>
-            <td><%= note.author %></td>
-            <td><%= note.description %></td>
-            <td>
-              <a href="#note/<%= note.id %>/delete" class="delete btn btn-danger btn-small">delete</a>
-            </td>
-          </tr>
-        <% }); %>
-      </tbody>
-    </table>
+
+    <% if (_.isEmpty(notes)){ %>
+      <div class="alert alert-warning">
+        <p>There are currently no notes. Try creating some.</p>
+      </div>
+    <% } %>
+
+    <% _.each(notes, function (note) { %>
+      <dl class="dl-horizontal">
+        <dt>Title</dt>
+        <dd><%= note.title %></dd>
+        <dt>Author</dt>
+        <dd><%= note.author %></dd>
+        <dt>Description</dt>
+        <dd><%= note.description %></dd>
+        <dt>&nbsp;</dt>
+        <dd>
+          <a class="btn btn-xs btn-info" href="#note/<%= note.id %>/edit">Edit</a>
+          <a class="btn btn-xs btn-danger" href="#note/<%= note.id %>/delete">Delete</a>
+        </dd>
+      </dl>
+    <% }); %>
+
   </script>
 
   <!-- load the libraries we need -->
   <script src="http://cdnjs.cloudflare.com/ajax/libs/zepto/1.1.6/zepto.min.js"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.3/backbone-min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone-localstorage.js/1.1.16/backbone.localStorage-min.js"></script>
   <!-- load our scripts -->
   <script src="js/note_router.js"></script>
-  <script src="js/models/note_model.js"></script>
+  <script src="js/note_model.js"></script>
   <script src="js/views/note_index.js"></script>
   <script src="js/views/note_new.js"></script>
   <script src="js/views/note_edit.js"></script>
   <script src="js/helpers.js"></script>
-  <script src="js/app.js"></script>
+  <script>
+    var app = new APP.NoteRouter();
+  </script>
 
   <script>
     // ga tracking

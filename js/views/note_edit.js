@@ -30,8 +30,7 @@ APP.NoteEditView = Backbone.View.extend({
     });
 
     if (this.model.isValid()) {
-      // we would save to the server here with
-      // this.note.save();
+      this.model.save();
       // redirect back to the index
       Backbone.history.navigate('notes/index', {trigger: true});
     }

@@ -1,4 +1,5 @@
 "use strict";
+
 window.APP = window.APP || {};
 APP.NoteRouter = Backbone.Router.extend({
   routes: {
@@ -10,10 +11,11 @@ APP.NoteRouter = Backbone.Router.extend({
 
   $container: $('#primary-content'),
 
-  initialize: function (options) {
-    this.collection = options.collection;
-    this.index();
+  initialize: function () {
+    this.collection = new APP.NoteCollection();
+    this.collection.fetch({ajaxSync: false});
     APP.helpers.debug(this.collection);
+    this.index();
     // start backbone watching url changes
     Backbone.history.start();
   },
@@ -28,7 +30,7 @@ APP.NoteRouter = Backbone.Router.extend({
 
   delete: function (id) {
     var note = this.collection.get(id);
-    this.collection.remove(note);
+    note.destroy();
     Backbone.history.navigate("notes/index", {trigger: true});
   },
 
@@ -40,8 +42,5 @@ APP.NoteRouter = Backbone.Router.extend({
   index: function () {
     var view = new APP.NoteIndexView({collection: this.collection});
     this.$container.html(view.render().el);
-    // we would call to the index with
-    // this.collection.fetch()
-    // to pull down the index json response to populate our collection initially
   }
 });

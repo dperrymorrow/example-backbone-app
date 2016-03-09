@@ -23,15 +23,14 @@ APP.NoteNewView = Backbone.View.extend({
     this.model.set({
       title: this.$el.find('input[name=title]').val(),
       author: this.$el.find('input[name=author]').val(),
-      description: this.$el.find('textarea[name=description]').val(),
-      // just setting random number for id would set as primary key from server
-      id: _.random(0, 100)
+      description: this.$el.find('textarea[name=description]').val()
     });
     
-    if (this.model.isValid()){
-      // add it to the collection
+    if (this.model.isValid()) {
+      // save it
       this.collection.add(this.model);
-      // this.note.save();
+      this.model.save();
+      // add it to the collection
       // redirect back to the index
       Backbone.history.navigate("notes/index", {trigger: true});
     }
