@@ -8,7 +8,7 @@ APP.NoteNewView = Backbone.View.extend({
     "keyup input": "validate",
     "keyup textarea": "validate"
   },
-  
+
   template: _.template($('#formTemplate').html()),
 
   initialize: function (options) {
@@ -25,7 +25,7 @@ APP.NoteNewView = Backbone.View.extend({
       author: this.$el.find('input[name=author]').val(),
       description: this.$el.find('textarea[name=description]').val()
     });
-    
+
     if (this.model.isValid()) {
       // save it
       this.collection.add(this.model);

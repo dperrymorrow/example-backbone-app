@@ -5,9 +5,7 @@ APP.NoteModel = Backbone.Model.extend({
   defaults: {
     title: "",
     description: "",
-    author: "",
-    // just setting random number for id would set as primary key from server
-    id: _.random(0, 10000)
+    author: ""
   },
 
   validate: function (attrs) {
@@ -22,5 +20,5 @@ APP.NoteModel = Backbone.Model.extend({
 APP.NoteCollection = Backbone.Collection.extend({
   // Reference to this collection's model.
   localStorage: new Backbone.LocalStorage("NoteCollection"),
-  model: APP.NoteModel,
+  model: APP.NoteModel
 });
